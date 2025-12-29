@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Blue Theme Style */
+  --color-brand-blue: #1E40AF;
+  --color-brand-blue-hover: #1E3A8A;
+  --color-text: #222222;
+  --color-text-secondary: #666666;
+  --color-bg: #FFFFFF;
+  --color-bg-headline: #F0F5FA;
+  --color-border: #E5E5E5;
+  --color-link-hover: #1E3A8A;
+  --color-blue: #0066CC;
+  
+  /* Aliases for compatibility */
+  --color-primary: #222222;
+  --color-accent: #1E40AF;
+  --color-text-light: #666666;
+  --color-text-muted: #999999;
+  --color-border-light: #F0F0F0;
+  --color-bg-subtle: #F9F9F9;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Sans', 'Malgun Gothic', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.7;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-brand-blue);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Noto Sans', 'Malgun Gothic', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.font-serif {
+  font-family: 'Noto Sans', 'Malgun Gothic', sans-serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-blue);
+}
+
+/* Accessibility */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  background: var(--color-brand-blue);
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 4px;
+  z-index: 9999;
+  transition: top 150ms ease;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-brand-blue);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

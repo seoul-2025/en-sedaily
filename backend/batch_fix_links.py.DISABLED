@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+"""Fast batch update of all article links"""
+import subprocess
+import json
+import sys
+
+print("Fetching all articles...")
+result = subprocess.run([
+    'aws', 'dynamodb', 'scan',
+    '--table-name', 'seodaily-eng-articles-dev',
+    '--region', 'us-east-1',
+    '--projection-expression', 'news_id',
+    '--output', 'json'
+], capture_output=True, text=True)
+
+data = json.loads(result.stdout)
+news_ids = [item['news_id']['S'] for item in data['Items']]
+
+print(f"Found {len(news_ids)} articles")
+print("Updating in batches of 25...")
+
+# Process in batches
+batch_size = 25
+total = len(news_ids)
+updated = 0
+
+for i in range(0, total, batch_size):
+    batch = news_ids[i:i+batch_size]
+    
+    # Update each in batch
+    for news_id in batch:
+        new_link = f"https://www.sedaily.com/NewsView/{news_id}"
+        
+        subprocess.run([
+            'aws', 'dynamodb', 'update-item',
+            '--table-name', 'seodaily-eng-articles-dev',
+            '--region', 'us-east-1',
+            '--key', json.dumps({"news_id": {"S": news_id}}),
+            '--update-expression', 'SET original_link = :link',
+            '--expression-attribute-values', json.dumps({":link": {"S": new_link}})
+        ], capture_output=True)
+        
+        updated += 1
+    
+    print(f"Progress: {updated}/{total} ({updated*100//total}%)")
+
+print(f"\n✅ Updated all {total} articles!")
+print("All links now use: https://www.sedaily.com/NewsView/[news_id]")

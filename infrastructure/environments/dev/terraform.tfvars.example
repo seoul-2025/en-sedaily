@@ -1,0 +1,29 @@
+# Example Terraform variables file
+# Copy this file to terraform.tfvars and fill in your values
+
+# Project Configuration
+project_name = "seodaily-eng"
+environment  = "dev"  # dev, staging, or prod
+region      = "us-east-1"
+
+# Domain Configuration
+domain_name     = "en.sedaily.ai"
+domain_name_com = "en.sedaily.com"
+zone_id        = "Z07543813V4FC5RK599U0"
+
+# SSL Certificate ARN (*.sedaily.ai wildcard certificate)
+ssl_certificate_arn = "arn:aws:acm:us-east-1:887078546492:certificate/ae647d30-3b86-429b-84b8-57398d536046"
+
+# EC2 Configuration
+ec2_instance_type = "t3.small"
+ec2_ami_id       = "ami-0c02fb55956c7d316"  # Amazon Linux 2
+
+# BigKinds API Configuration (for Lambda functions)
+bigkinds_api_key = "your_bigkinds_api_key_here"
+bigkinds_api_url = "https://api.bigkinds.or.kr"
+
+# AWS Bedrock Configuration (for AI features)
+bedrock_model_id = "anthropic.claude-3-sonnet-20240229-v1:0"
+
+# Logging Configuration
+log_level = "INFO"  # DEBUG, INFO, WARNING, ERROR, or CRITICAL

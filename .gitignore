@@ -1,0 +1,118 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+backend/venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment variables (CRITICAL - NEVER COMMIT)
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+.env.staging
+backend/.env
+frontend/.env.local
+frontend/.env.production
+cms/.env.local
+
+# API Keys and Secrets (CRITICAL - NEVER COMMIT)
+*api_key*
+*secret*
+*credentials*
+*.pem
+*.key
+*token*
+*password*
+config/secrets.json
+config/keys.json
+
+# AWS Credentials
+.aws/
+aws-credentials.json
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.hypothesis/
+
+# Terraform
+infrastructure/.terraform/
+infrastructure/*.tfstate
+infrastructure/*.tfstate.*
+infrastructure/.terraform.lock.hcl
+infrastructure/terraform.tfvars
+infrastructure/environments/*/terraform.tfvars
+
+# Logs
+*.log
+logs/
+
+# Node
+node_modules/
+frontend/.next/
+frontend/out/
+cms/.next/
+cms/out/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Backend build
+backend/build/
+backend/lambda-build/
+backend/lambda_package.zip
+backend/dist/
+
+# Frontend deployment archives
+frontend/deploy-*.tar.gz
+cms/deploy-*.tar.gz
+
+# Backup files
+*.bak
+*.old
+*~
+
+# Database dumps
+*.sql
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/

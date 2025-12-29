@@ -1,0 +1,356 @@
+# Admin Lambda Functions for CMS
+
+# Lambda Function: List Articles
+resource "aws_lambda_function" "admin_list" {
+  function_name = "seodaily-eng-admin-list-dev"
+  handler       = "handlers.admin_handler.lambda_handler_list"
+  runtime       = "python3.11"
+  role          = aws_iam_role.lambda_execution.arn
+  timeout       = 30
+  memory_size   = 512
+
+  s3_bucket = "seodaily-eng-lambda-packages-dev"
+  s3_key    = "lambda-admin.zip"
+
+  environment {
+    variables = {
+      DYNAMODB_TABLE_ARTICLES = "seodaily-eng-articles-dev"
+    }
+  }
+}
+
+# Lambda Function: Get Article
+resource "aws_lambda_function" "admin_get" {
+  function_name = "seodaily-eng-admin-get-dev"
+  handler       = "handlers.admin_handler.lambda_handler_get"
+  runtime       = "python3.11"
+  role          = aws_iam_role.lambda_execution.arn
+  timeout       = 30
+  memory_size   = 512
+
+  s3_bucket = "seodaily-eng-lambda-packages-dev"
+  s3_key    = "lambda-admin.zip"
+
+  environment {
+    variables = {
+      DYNAMODB_TABLE_ARTICLES = "seodaily-eng-articles-dev"
+    }
+  }
+}
+
+# Lambda Function: Update Article
+resource "aws_lambda_function" "admin_update" {
+  function_name = "seodaily-eng-admin-update-dev"
+  handler       = "handlers.admin_handler.lambda_handler_update"
+  runtime       = "python3.11"
+  role          = aws_iam_role.lambda_execution.arn
+  timeout       = 30
+  memory_size   = 512
+
+  s3_bucket = "seodaily-eng-lambda-packages-dev"
+  s3_key    = "lambda-admin.zip"
+
+  environment {
+    variables = {
+      DYNAMODB_TABLE_ARTICLES = "seodaily-eng-articles-dev"
+    }
+  }
+}
+
+# Lambda Function: Delete Article
+resource "aws_lambda_function" "admin_delete" {
+  function_name = "seodaily-eng-admin-delete-dev"
+  handler       = "handlers.admin_handler.lambda_handler_delete"
+  runtime       = "python3.11"
+  role          = aws_iam_role.lambda_execution.arn
+  timeout       = 30
+  memory_size   = 512
+
+  s3_bucket = "seodaily-eng-lambda-packages-dev"
+  s3_key    = "lambda-admin.zip"
+
+  environment {
+    variables = {
+      DYNAMODB_TABLE_ARTICLES = "seodaily-eng-articles-dev"
+    }
+  }
+}
+
+# Lambda Function: Bulk Update
+resource "aws_lambda_function" "admin_bulk" {
+  function_name = "seodaily-eng-admin-bulk-dev"
+  handler       = "handlers.admin_handler.lambda_handler_bulk"
+  runtime       = "python3.11"
+  role          = aws_iam_role.lambda_execution.arn
+  timeout       = 60
+  memory_size   = 512
+
+  s3_bucket = "seodaily-eng-lambda-packages-dev"
+  s3_key    = "lambda-admin.zip"
+
+  environment {
+    variables = {
+      DYNAMODB_TABLE_ARTICLES = "seodaily-eng-articles-dev"
+    }
+  }
+}
+
+# CloudWatch Log Groups
+resource "aws_cloudwatch_log_group" "admin_list" {
+  name              = "/aws/lambda/seodaily-eng-admin-list-dev"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "admin_get" {
+  name              = "/aws/lambda/seodaily-eng-admin-get-dev"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "admin_update" {
+  name              = "/aws/lambda/seodaily-eng-admin-update-dev"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "admin_delete" {
+  name              = "/aws/lambda/seodaily-eng-admin-delete-dev"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "admin_bulk" {
+  name              = "/aws/lambda/seodaily-eng-admin-bulk-dev"
+  retention_in_days = 7
+}
+
+# API Gateway Resources
+resource "aws_api_gateway_resource" "admin" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_rest_api.api.root_resource_id
+  path_part   = "admin"
+}
+
+resource "aws_api_gateway_resource" "admin_articles" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_resource.admin.id
+  path_part   = "articles"
+}
+
+resource "aws_api_gateway_resource" "admin_articles_id" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_resource.admin_articles.id
+  path_part   = "{id}"
+}
+
+resource "aws_api_gateway_resource" "admin_articles_bulk" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  parent_id   = aws_api_gateway_resource.admin_articles.id
+  path_part   = "bulk"
+}
+
+# GET /admin/articles - List
+resource "aws_api_gateway_method" "admin_list" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.admin_articles.id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "admin_list" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.admin_articles.id
+  http_method             = aws_api_gateway_method.admin_list.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.admin_list.invoke_arn
+}
+
+resource "aws_lambda_permission" "admin_list" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.admin_list.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
+# GET /admin/articles/{id} - Get
+resource "aws_api_gateway_method" "admin_get" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.admin_articles_id.id
+  http_method   = "GET"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "admin_get" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.admin_articles_id.id
+  http_method             = aws_api_gateway_method.admin_get.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.admin_get.invoke_arn
+}
+
+resource "aws_lambda_permission" "admin_get" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.admin_get.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
+# PUT /admin/articles/{id} - Update
+resource "aws_api_gateway_method" "admin_update" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.admin_articles_id.id
+  http_method   = "PUT"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "admin_update" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.admin_articles_id.id
+  http_method             = aws_api_gateway_method.admin_update.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.admin_update.invoke_arn
+}
+
+resource "aws_lambda_permission" "admin_update" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.admin_update.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
+# DELETE /admin/articles/{id} - Delete
+resource "aws_api_gateway_method" "admin_delete" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.admin_articles_id.id
+  http_method   = "DELETE"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "admin_delete" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.admin_articles_id.id
+  http_method             = aws_api_gateway_method.admin_delete.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.admin_delete.invoke_arn
+}
+
+resource "aws_lambda_permission" "admin_delete" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.admin_delete.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
+# POST /admin/articles/bulk - Bulk Update
+resource "aws_api_gateway_method" "admin_bulk" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.admin_articles_bulk.id
+  http_method   = "POST"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "admin_bulk" {
+  rest_api_id             = aws_api_gateway_rest_api.api.id
+  resource_id             = aws_api_gateway_resource.admin_articles_bulk.id
+  http_method             = aws_api_gateway_method.admin_bulk.http_method
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.admin_bulk.invoke_arn
+}
+
+resource "aws_lambda_permission" "admin_bulk" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.admin_bulk.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api.execution_arn}/*/*"
+}
+
+# CORS for /admin/articles
+resource "aws_api_gateway_method" "admin_articles_options" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.admin_articles.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "admin_articles_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.admin_articles.id
+  http_method = aws_api_gateway_method.admin_articles_options.http_method
+  type        = "MOCK"
+  request_templates = {
+    "application/json" = "{\"statusCode\": 200}"
+  }
+}
+
+resource "aws_api_gateway_method_response" "admin_articles_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.admin_articles.id
+  http_method = aws_api_gateway_method.admin_articles_options.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "admin_articles_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.admin_articles.id
+  http_method = aws_api_gateway_method.admin_articles_options.http_method
+  status_code = aws_api_gateway_method_response.admin_articles_options.status_code
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT,DELETE'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
+}
+
+# CORS for /admin/articles/{id}
+resource "aws_api_gateway_method" "admin_articles_id_options" {
+  rest_api_id   = aws_api_gateway_rest_api.api.id
+  resource_id   = aws_api_gateway_resource.admin_articles_id.id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "admin_articles_id_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.admin_articles_id.id
+  http_method = aws_api_gateway_method.admin_articles_id_options.http_method
+  type        = "MOCK"
+  request_templates = {
+    "application/json" = "{\"statusCode\": 200}"
+  }
+}
+
+resource "aws_api_gateway_method_response" "admin_articles_id_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.admin_articles_id.id
+  http_method = aws_api_gateway_method.admin_articles_id_options.http_method
+  status_code = "200"
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+}
+
+resource "aws_api_gateway_integration_response" "admin_articles_id_options" {
+  rest_api_id = aws_api_gateway_rest_api.api.id
+  resource_id = aws_api_gateway_resource.admin_articles_id.id
+  http_method = aws_api_gateway_method.admin_articles_id_options.http_method
+  status_code = aws_api_gateway_method_response.admin_articles_id_options.status_code
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,OPTIONS,POST,PUT,DELETE'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+  }
+}

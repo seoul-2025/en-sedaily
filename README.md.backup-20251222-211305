@@ -1,0 +1,605 @@
+# SEOdaily-ENG
+
+English version of Seoul Economic Daily - Korean business news translated to English.
+
+**Last Updated**: 2025-12-21 (Phase 27: SSR Migration & SEO Optimization)
+
+## Overview
+
+SEOdaily-ENG is the official English version of Seoul Economic Daily's website. It provides **real-time translation** of Korean business and financial news using BigKinds API and Anthropic Claude Opus 4.5, with automatic updates every 1 hour.
+
+**Live Demo**: https://en.sedaily.com
+
+## Features
+
+- ✅ **Real-time Updates**: Collects today's articles every hour
+- ✅ **Client-Side Loading**: No frontend rebuild needed - users see latest articles on refresh
+- ✅ **Automatic Translation**: Korean → English via Anthropic Claude Opus 4.5
+- ✅ **Content Filtering**: Only articles with content are displayed
+- ✅ **Search Functionality**: Title + content search with highlighting
+- ✅ **7 Categories**: Finance, Technology, Politics, Society, Culture, Sports, International
+- ✅ **SEO Optimized**: JSON-LD structured data, robots.txt, sitemap.xml
+- ✅ **Responsive Design**: Desktop/Tablet/Mobile
+- ✅ **Premium Dark Theme**: Washington Post/NYT inspired
+- ✅ **Original Links**: Direct links to Seoul Economic articles (provider_link_page)
+- ✅ **Smart Deduplication**: Prevents duplicate articles in DynamoDB
+- ✅ **Seoul Economic Logo**: Clickable logo in header for easy access to main site
+- ✅ **CMS Article Editor**: Edit articles via https://enadmin.sedaily.ai with direct DynamoDB updates
+
+## Architecture
+
+```
+EventBridge (Every Hour)
+  ↓
+Lambda Collector (Collects today's articles)
+  ↓
+BigKinds API (Seoul Economic only)
+  ↓
+Anthropic Claude (Korean → English)
+  ↓
+DynamoDB (Deduplicated storage)
+  ↓
+API Gateway (Search + Article APIs)
+  ↓
+EC2 (Next.js SSR + CSR Hybrid)
+  ↓
+Users (SEO-optimized, real-time articles)
+```
+
+### SSR Architecture (Phase 27)
+- **EC2 Instance**: t3.medium (2 vCPU, 4GB RAM)
+- **Next.js SSR**: Server-Side Rendering for SEO optimization
+- **Hybrid Rendering**: SSR for initial load + CSR for interactions
+- **PM2**: Process manager for Node.js application
+- **Nginx**: Reverse proxy with HTTPS (Let's Encrypt)
+- **Domain**: en.sedaily.com (primary)
+
+## Quick Start
+
+### Backend Setup
+```bash
+cd backend
+pip install -r requirements.txt
+cp .env.example .env
+# Edit .env with your API keys
+uvicorn main:app --reload
+```
+
+### Frontend Setup
+```bash
+cd frontend
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+### Infrastructure Setup
+```bash
+cd infrastructure
+terraform init
+terraform plan
+terraform apply
+```
+
+## Current Deployment
+
+**Status**: ✅ Production Ready - Phase 27 Complete (Updated: 2025-12-21)
+
+### Latest Updates (Phase 27 - 2025-12-21): SSR Migration & SEO Optimization
+- ✅ **SSR Migration**: S3+CloudFront static → EC2+Next.js SSR hybrid
+- ✅ **Domain Consolidation**: en.sedaily.ai → en.sedaily.com (canonical)
+- ✅ **E-E-A-T Pages**: Added About, Contact, Terms, Privacy for trust signals
+- ✅ **llms.txt**: AI crawler navigation file for ChatGPT, Perplexity, Claude
+- ✅ **Sitemap Unification**: Removed en.sedaily.ai, only en.sedaily.com
+- ✅ **robots.txt**: Updated with single domain, AI crawler directives
+- ✅ **Hashtag → Search**: Clickable hashtags link to search results
+- ✅ **Favicon & Meta**: Upgraded with proper descriptions per page
+- ✅ **Category Metadata**: SEO metadata for each category page
+- ✅ **Search UX**: Wave dots loading animation
+- ✅ **Rendering Performance**: ISR caching (Main: 5min, Category: 10min, Article: 1hr)
+- ✅ **Google Search Console**: 17,546 impressions, 66 clicks, 130+ countries
+- ✅ **AI Overview Citation**: Confirmed appearance in Google AI Overview
+
+### Previous Updates (Phase 26 - 2025-12-18)
+- ✅ **Extended Category Mapping**: Added 지역→Regional, 산업→Industry, 부동산→Real Estate, 증권/금융→Finance
+- ✅ **Byline Romanization**: Korean reporter names converted to English (mapping table + aromanize library)
+- ✅ **Search Page Localization**: Category badges now display in English
+- ✅ **Article Metadata**: SEO, OpenGraph, JSON-LD all converted to English
+- ✅ **Hashtag Filtering**: Invalid tags like `#**` are now filtered out
+- ✅ **Image Fallback**: Articles with images prioritized for featured sections; Seoul Economic logo as placeholder
+- ✅ **Footer Social Links**: Added YouTube, Naver TV, Instagram, Naver Blog, Facebook, X (Twitter)
+- ✅ **Search UX**: Wave dots loading animation
+- ✅ **Newsletter Button**: Fixed text visibility issue
+
+### CMS (Phase 16 - 2025-12-05)
+- ✅ **CMS URL**: https://enadmin.sedaily.ai
+- ✅ **Article Editor**: News ID input → Edit → Save (direct DynamoDB update)
+- ✅ **Lambda**: seodaily-eng-cms-update-dev
+- ✅ **API**: POST /api/update-article
+- ✅ **Pattern**: Same as update_all_to_short_links.py (DynamoDB update_item)
+
+### Latest Updates (Phase 25 - 2025-12-10)
+- ✅ **Complete Korean Removal**: Categories and bylines now in English
+- ✅ **Category Mapping**: 경제→finance, IT_과학→technology, etc.
+- ✅ **Byline Extraction**: English names from Claude [BYLINE] section
+- ✅ **100% English Frontend**: No Korean text visible on en.sedaily.ai
+
+### Previous Updates (Phase 14.2 - 2025-01-08)
+- ✅ **SEO Metadata Integration**: article_handler.py now returns meta_description, keywords, hashtags
+- ✅ **Frontend Display**: Hashtags visible on article pages, SEO metadata in JSON-LD
+- ✅ **Lambda Deployment**: All 3 functions updated (34.3 MB package)
+- ✅ **End-to-End Working**: DynamoDB → Lambda → Frontend complete data flow
+
+### URLs
+- **Primary Domain**: https://en.sedaily.com (EC2 SSR)
+- **Legacy Domain**: https://en.sedaily.ai (redirects to en.sedaily.com)
+- **API Gateway**: https://7w5nco7xn4.execute-api.us-east-1.amazonaws.com/dev
+- **Google Search Console**: ✅ Verified and Configured (17,546 impressions)
+
+### AWS Resources (us-east-1)
+- **Lambda Functions**:
+  - `seodaily-eng-search-dev` - Search API with content filtering
+  - `seodaily-eng-article-dev` - Article detail API
+  - `seodaily-eng-article-collector-dev` - Auto-collection (every 1 hour)
+- **DynamoDB Tables**:
+  - `seodaily-eng-metadata-dev` - Metadata
+  - `seodaily-eng-articles-dev` - 7,889 articles stored (as of 2025-12-21)
+- **EC2 Instance**: t3.medium (Next.js SSR application)
+- **S3 Buckets**:
+  - `seodaily-eng-frontend-dev-us-east-1` - Frontend static files
+  - `seodaily-eng-lambda-packages-dev` - Lambda packages
+- **CloudFront**: Distribution ID `EUWQ1K71CXJUH`
+- **EventBridge**: `seodaily-eng-article-collection-dev` (rate: 1 hour)
+
+### BigKinds API
+- **Key**: 254bec69-1c13-470f-904a-c4bc9e46cc80
+- **Provider**: Seoul Economic Daily only
+- **URL**: https://tools.kinds.or.kr
+- **Original Links**: Uses `provider_link_page` field (short format: https://www.sedaily.com/NewsView/2H1L4MR7OB)
+- **HTTPS Conversion**: Automatic http:// to https:// conversion
+- **Link Format**: 97.3% articles use short links (2H1xxx format)
+
+### SEO/AEO Optimization (Complete)
+- **Google Search Console**: ✅ Verified (17,546 impressions, 66 clicks, Korea avg #8.4)
+- **Sitemap**: ✅ Dynamic sitemap with 7,889+ articles
+- **Structured Data**: ✅ JSON-LD for WebSite, NewsArticle, NewsMediaOrganization
+- **Open Graph**: ✅ Custom brand images (1200x630)
+- **Meta Tags**: ✅ Dynamic titles and descriptions per page
+- **E-E-A-T Pages**: ✅ About, Contact, Terms, Privacy pages for trust
+- **llms.txt**: ✅ AI crawler navigation file
+- **Performance**: ✅ SSR + ISR caching, Core Web Vitals optimized
+- **Breadcrumbs**: ✅ Internal linking structure for better crawling
+- **Robots.txt**: ✅ Single domain (en.sedaily.com), AI crawler friendly
+- **Domain**: ✅ Primary domain en.sedaily.com with SSL (EC2)
+- **AI Overview**: ✅ Confirmed citation in Google AI Overview
+- **Ready for**: Google Search, Perplexity, ChatGPT, Claude, and other AEO engines
+
+## Recent Changes
+
+### Phase 27: SSR Migration & SEO Optimization (2025-12-21)
+- ✅ **Infrastructure Migration**
+  - Migrated from S3+CloudFront static hosting to EC2+Next.js SSR
+  - EC2 t3.medium instance with PM2 process manager
+  - Nginx reverse proxy with Let's Encrypt SSL
+  - Standalone Next.js build for server-side rendering
+- ✅ **Domain Consolidation**
+  - Primary domain changed from en.sedaily.ai to en.sedaily.com
+  - Canonical URLs updated across all pages
+  - Sitemap now only includes en.sedaily.com URLs
+  - robots.txt Host directive set to en.sedaily.com
+- ✅ **E-E-A-T Implementation**
+  - Added /about page with company history (founded 1960)
+  - Added /contact page with editorial contact info
+  - Added /terms page with terms of service
+  - Added /privacy page with privacy policy
+  - JSON-LD AboutPage schema for structured data
+- ✅ **AI Search Optimization**
+  - llms.txt file for AI crawler navigation
+  - Site structure, categories, key topics documented
+  - Optimized for ChatGPT, Perplexity, Claude crawlers
+- ✅ **Hashtag → Search Connection**
+  - Article hashtags now link to search results
+  - Improved internal linking for SEO
+  - Invalid hashtag filtering (removes #** etc.)
+- ✅ **Performance Optimization**
+  - ISR caching: Main (5min), Category (10min), Article (1hr), Search (3min)
+  - Middleware-based cache headers
+  - Server-side rendering for faster TTFB
+- ✅ **SEO Results**
+  - Google Search Console: 17,546 impressions, 66 clicks
+  - Korea average position: #8.4 (first page)
+  - 130+ countries reached
+  - Confirmed AI Overview citation
+
+### Phase 26: Complete Localization & UX Improvements (2025-12-18)
+- ✅ **Category System Overhaul**
+  - Extended CATEGORY_MAP with 15+ Korean categories
+  - Created shared `categoryUtils.ts` for consistent translation
+  - Categories: 지역(Regional), 산업(Industry), 부동산(Real Estate), 증권/금융(Finance), 연예(Culture), etc.
+- ✅ **Byline Localization System**
+  - Created `reporterNames.ts` mapping table (40+ Korean names → English)
+  - Integrated `aromanize` library for automatic romanization
+  - Format: "By [English Name]" (e.g., "By Tae-gyu Lee")
+  - Falls back to "Seoul Economic Daily" when conversion fails
+- ✅ **Search Page Improvements**
+  - Category badges now display in English
+  - Wave dots loading animation for better UX
+  - Image fallback with Seoul Economic logo
+- ✅ **Article Page Enhancements**
+  - All metadata (SEO, OpenGraph, JSON-LD) converted to English
+  - Hashtag filtering: removes invalid tags like `#**`
+  - Reporter name displayed as "By [Name]"
+- ✅ **Homepage & Category Pages**
+  - Articles with images prioritized for featured/hero sections
+  - Image error fallback shows Seoul Economic logo placeholder
+- ✅ **Footer Updates**
+  - Added social media links: YouTube, Naver TV, Instagram, Naver Blog, Facebook, X
+  - Custom SVG icons for X (Twitter) and Naver
+- ✅ **Bug Fixes**
+  - Newsletter Subscribe button text visibility
+  - "Image not available" text removed from article pages
+
+### Phase 23: All Articles Accessible (2025-12-08)
+- ✅ **DynamoDB Scan Pagination**: 177개 → 3,138개 (99.1%)
+- ✅ **Date Filter Bug Fix**: `>=` 사용으로 수정
+- ✅ **Frontend Date Restrictions Removed**: 전체 기간 표시
+- ✅ **Sitemap All Articles**: 2,916개 포함
+- ✅ **All Pages Accessible**: 옛날 + 최신 기사 모두 접근 가능
+
+### Phase 16: CMS Article Update System (2025-12-05)
+- ✅ **CMS Simplified**: News ID input (no list loading, no CORS issues)
+- ✅ **Lambda Function**: seodaily-eng-cms-update-dev (direct DynamoDB update)
+- ✅ **API Endpoint**: POST /api/update-article (CORS configured)
+- ✅ **Update Pattern**: Same as update_all_to_short_links.py
+- ✅ **Editable Fields**: title_en, content_en, category, meta_description, keywords, hashtags
+- ✅ **Real-time**: Changes immediately visible on en.sedaily.ai
+
+### Phase 15: Performance Optimization (2025-01-08)
+- ✅ **Frontend Optimization**: 초기 로드 기사 수 25개 → 15개 (40% 빠름)
+- ✅ **Lambda Memory Upgrade**: 512MB → 1024MB (응답 속도 50% 개선)
+- ✅ **API Response Time**: 5초 → 2.5초 예상
+- ✅ **User Experience**: 로딩 시간 대폭 단축
+- ✅ **Cost Impact**: +$5/월 (성능 대비 매우 효율적)
+
+### Phase 14.2: SEO Metadata Integration (2025-01-08)
+- ✅ **article_handler.py Updated**: Now returns meta_description, keywords, hashtags
+- ✅ **Frontend Integration**: Hashtags display, SEO metadata in JSON-LD
+- ✅ **Lambda Deployed**: All 3 functions updated with new code
+- ✅ **Production Ready**: SEO metadata fully functional end-to-end
+
+### Phase 14.1: Lambda Deployment Fix (2025-01-08)
+- ✅ **Lambda Environment Variables**: ANTHROPIC_API_KEY 추가 (3/3 함수)
+- ✅ **Lambda Package Rebuilt**: AWS Translate → Anthropic Claude 코드
+- ✅ **TRANSLATION_PROMPT.md**: Lambda 패키지에 포함 (32,983 bytes)
+- ✅ **Verification Complete**: 모든 Lambda 함수 Anthropic Claude 사용 확인
+- ✅ **Production Ready**: 다음 수집부터 Claude Opus 4.5 번역
+
+### Phase 14.1: Lambda Deployment Fix (2025-01-XX)
+- ✅ **Lambda Environment Variables**: ANTHROPIC_API_KEY 추가
+- ✅ **Lambda Package**: AWS Translate → Anthropic Claude 코드
+- ✅ **TRANSLATION_PROMPT.md**: Lambda 패키지에 포함
+- ✅ **Verification**: 모든 Lambda 함수 Anthropic 사용 확인
+
+### Phase 14: Anthropic Claude Translation Engine (2025-01-XX)
+- ✅ **AWS Translate → Anthropic Claude 완전 교체**
+- ✅ **모델**: claude-opus-4-5-20251101 (Claude Opus 4.5)
+- ✅ **TRANSLATION_PROMPT.md**: 전문 경제 기사 번역 프롬프트
+- ✅ **구조화된 출력**: HEADLINE, BYLINE, ARTICLE, DISCLAIMER, SEO/AEO
+- ✅ **테스트 완료**: Anthropic API 정상 작동 확인
+- ✅ **번역 품질**: WSJ/FT/Reuters/Bloomberg 수준
+
+### Phase 13: BigKinds API Fields Fix (2025-12-04 13:30 KST)
+- ✅ **Root Cause Found**: BigKinds API requires explicit `fields` parameter
+- ✅ **search_news() Enhanced**: Added `fields` parameter support
+- ✅ **article_collector Fixed**: Now requests `provider_link_page` in search API
+- ✅ **All Lambda Functions Deployed**: search, article, collector updated
+- ✅ **Expected Result**: New articles will have original_link populated automatically
+
+### Phase 12.2: Frontend UX Improvements (2025-12-03 Evening KST)
+- ✅ **Seoul Economic Logo**: Added clickable logo in header (96x64px)
+- ✅ **Header Enhancement**: Clean logo-only design linking to https://www.sedaily.com/
+- ✅ **User Experience**: Direct access to Seoul Economic main site
+- ✅ **Responsive Design**: Logo scales appropriately across devices
+
+### Phase 12.1: Provider Link Fix (2025-12-03 Evening KST)
+- ✅ **BigKinds API Integration**: Fixed `provider_link_page` field extraction
+- ✅ **Short Links Restored**: 97.3% of articles updated to short links (e.g., 2H1L4MR7OB)
+- ✅ **Response Validator Fixed**: Added missing `provider_link_page` field
+- ✅ **Problem Scripts Disabled**: `batch_fix_links.py.DISABLED`, `fix_all_links.py.DISABLED`
+- ✅ **Mass Update Complete**: 1,536/1,578 articles successfully updated
+- ✅ **Auto Processing**: New articles automatically get short links
+
+### Phase 12: Frontend Code Quality (2025-12-03 14:55 KST)
+- ✅ **API Functions Centralized**: All API calls in utils/api.ts
+- ✅ **TypeScript Types Improved**: CategoryArticle, SearchResponse interfaces
+- ✅ **Error Handling Comprehensive**: All pages have error UI
+- ✅ **Date Range Optimized**: 365 days → 30 days
+- ✅ **Loading States Unified**: Skeleton UI everywhere
+- ✅ **Code Duplication Removed**: Reusable functions
+
+### Phase 11: Critical Bug Fixes & Optimization (2025-12-03 14:10 KST)
+- ✅ **Lambda Logging Fix**: Changed from basicConfig to logger.setLevel
+- ✅ **DynamoDB Category Fix**: List → String conversion (100% save success)
+- ✅ **Save Verification**: Read-after-write validation
+- ✅ **BigKinds API Validation**: Check result == 0
+- ✅ **Rate Limiting**: 1 second delay between API calls
+- ✅ **Batch Detail Fetching**: 100 articles per call
+- ✅ **All Critical Bugs Fixed**: 100% save success rate achieved
+
+### Phase 11: Complete SEO/AEO Optimization (2025-12-03 13:00 KST)
+- ✅ **Google Search Console**: Verified and configured with HTML meta tag
+- ✅ **Sitemap Optimization**: Fixed static sitemap (removed API dependency)
+- ✅ **Structured Data**: Enhanced JSON-LD with ItemList and SearchAction
+- ✅ **Open Graph Images**: Custom brand images with Seoul Economic colors
+- ✅ **Performance**: Next.js optimizations, 96.8kB First Load JS
+- ✅ **Breadcrumb Navigation**: Internal linking for better crawling
+- ✅ **Domain Migration**: eng.sedaily.ai → en.sedaily.ai (primary)
+- ✅ **SSL Certificate**: New certificate for en.sedaily.ai domain
+- ✅ **MetadataBase**: Fixed Open Graph image warnings
+- ✅ **Ready for AEO**: Optimized for Google, Perplexity, ChatGPT
+
+### Phase 10.1: Collector Logic & Frontend Fixes (2025-12-03 11:15 KST)
+- ✅ **Collector Error Fix**: Returns success when no new articles (no more false errors)
+- ✅ **CSS Variables**: Added missing variables (--color-primary, --color-accent, etc.)
+- ✅ **Form Accessibility**: Search input name/id attributes added
+- ✅ **Clean Logs**: No more "At least one news_id is required" errors
+
+### Phase 10: Performance Optimization & Style Update (2025-12-03 16:00 KST)
+- ✅ **Batch Duplicate Checking**: 91% DynamoDB call reduction (364→4)
+- ✅ **Chunked Translation**: 4,000 char limit for large articles
+- ✅ **KST Timezone Fix**: Correct today's article collection
+- ✅ **provider_link_page**: Short links from BigKinds API
+- ✅ **Custom Domain**: en.sedaily.ai (primary), eng.sedaily.ai (alias)
+- ✅ **Seoul Economic Style**: White theme, Noto Sans, brand red (#E31B23)
+
+### Phase 9: Collection Strategy Update (2025-12-02 14:15 KST)
+- ✅ **Collection Range**: Changed from "last 1 hour" to "today's articles"
+- ✅ **Deduplication**: Automatically skips articles already in DynamoDB
+- ✅ **Original Links**: Fixed to use BigKinds `provider_link_page` field
+- ✅ **EventBridge Fix**: Removed duplicate target (version 6), now uses $LATEST only
+- ✅ **HTTPS Conversion**: Converts http:// links to https:// automatically
+
+### Phase 8: Cost Optimization (2025-12-01 16:00 KST)
+- ✅ **Schedule Change**: 10 minutes → 1 hour
+- ✅ **Cost Reduction**: $86/month → $14/month (84% savings)
+- ✅ **EventBridge Update**: rate(1 hour)
+- ✅ **Same Functionality**: Client-side loading still works
+
+### Phase 7: Performance & UX Improvements (2025-12-01 14:30 KST)
+- ✅ **Image Removal**: Text-only layout for faster loading
+- ✅ **Core Web Vitals**: Compression, minification, resource hints
+- ✅ **SEO Enhancement**: JSON-LD structured data (WebSite, NewsArticle)
+- ✅ **Related Articles**: 3 articles from same category on detail page
+- ✅ **Client-Side Loading**: Real-time data without frontend rebuild
+
+### Phase 6.2: Content Quality & Search (2025-12-01 11:30 KST)
+- ✅ **Content Filtering**: Articles without content automatically excluded
+- ✅ **Search Improvement**: Title + content search, case-insensitive
+- ✅ **DynamoDB Search**: Python-based date filtering, ISO format support
+
+### Phase 6.1: Header UX (2025-11-30 20:22 KST)
+- ✅ **Brighter Text**: Improved readability (#c8c8c8, #a0a0a0)
+- ✅ **Header Optimization**: 64px padding, perfect logo centering
+- ✅ **Smart Scroll**: Logo/search/header hide on scroll >100px
+
+### Phase 6: Premium Dark Theme (2025-11-30 19:55 KST)
+- ✅ **Dark Theme**: #0d1117 background, #e5e5e5 text
+- ✅ **Typography**: Playfair Display + Merriweather + Inter
+- ✅ **Layout**: 3-column hero (50%+25%+25%), Chosun Daily style categories
+
+### Phase 5: 7-Category Structure (2025-11-30 19:07 KST)
+- ✅ **Real Categories**: Mapped to actual Seoul Economic tags
+- ✅ **Next.js Link**: Client-side routing for all navigation
+
+### Phase 4: Real-time Updates (2025-11-29)
+- ✅ **EventBridge**: Every 1 hour (optimized from 10 minutes)
+- ✅ **Auto-Collection**: Automatic article collection and translation
+- ✅ **DynamoDB Caching**: 0.5s cached, 5s uncached
+
+## Deployment
+
+### Frontend Deployment (EC2 SSR)
+```bash
+# On EC2 instance
+cd /var/www/en-sedaily
+git pull origin main
+cd frontend
+npm install
+npm run build
+pm2 restart en-sedaily
+```
+
+### Frontend Deployment (Legacy: S3+CloudFront)
+```bash
+cd frontend
+rm -rf .next out  # CRITICAL: Clean cache
+npm run build
+aws s3 sync out/ s3://seodaily-eng-frontend-dev-us-east-1/ --delete
+aws cloudfront create-invalidation --distribution-id EUWQ1K71CXJUH --paths "/*"
+```
+
+**Note**: EC2 SSR is now the primary deployment method. S3+CloudFront is deprecated.
+
+### Backend Deployment
+```bash
+cd backend
+./build_lambda.sh  # Docker-based Linux build
+```
+
+### Infrastructure Deployment
+```bash
+cd infrastructure
+terraform apply
+```
+
+## How Real-time Updates Work
+
+### Automatic Collection (Every Hour at :48)
+1. EventBridge triggers Lambda at :48 every hour
+2. Collect **today's articles** (00:00 ~ 23:59) from BigKinds
+3. Check DynamoDB - skip if article already exists (deduplication)
+4. Filter out articles without content
+5. Translate Korean → English via Anthropic Claude Opus 4.5
+6. Save to DynamoDB with original Seoul Economic link
+
+### Frontend Display (On Page Load)
+1. User visits/refreshes page
+2. Client-side API call to DynamoDB
+3. Fetch latest articles (sorted by date)
+4. Display newest as Featured
+5. **No frontend rebuild needed**
+
+### Article Rotation
+- **Featured**: Always newest article (articles[0])
+- **Top Stories**: 2nd-6th newest (articles[1-5])
+- **Most Popular**: 7th-11th newest (articles[6-10])
+- **Automatic**: Featured changes when new article added
+- **Original Links**: Each article links to Seoul Economic (https://www.sedaily.com/NewsView/...)
+
+## Performance Metrics
+
+- **Rendering**: SSR (Server-Side Rendering) + ISR caching
+- **Build Type**: Standalone Next.js build
+- **Initial Load**: 15 articles per page
+- **Article Load**: <1s (SSR cached), 2s (uncached)
+- **Lambda Memory**: 1024MB (upgraded from 512MB)
+- **Collection Frequency**: Every hour at :48 (KST)
+- **Collection Range**: Today's articles (00:00 ~ 23:59 KST)
+- **Total Articles**: 7,889 stored in DynamoDB (as of 2025-12-21)
+- **Weekly Translation**: ~2,500-2,700 articles/week
+- **Monthly Cost**: ~$96/month (Anthropic $47 + EC2 $30 + Lambda $11 + Others $8)
+- **Code Quality**: TypeScript strict types, centralized API, comprehensive error handling
+- **DynamoDB Optimization**: 91% call reduction
+- **Translation**: Chunked (4,000 char limit)
+- **Style**: Seoul Economic white theme
+- **Deduplication**: Automatic (prevents duplicates)
+- **SEO Performance**: 17,546 impressions, Korea avg position #8.4
+
+## Tech Stack
+
+### Backend
+- Python 3.11 + FastAPI
+- AWS Lambda + API Gateway
+- Anthropic Claude Opus 4.5 (claude-opus-4-5-20251101)
+- DynamoDB
+- BigKinds API
+
+### Frontend
+- Next.js 14.2.0 + TypeScript 5.3.0
+- Tailwind CSS 3.4.0
+- SSR (Server-Side Rendering) + ISR caching
+- EC2 t3.medium with Nginx + PM2
+
+### Infrastructure
+- Terraform (IaC)
+- EventBridge (Scheduler)
+- CloudWatch (Monitoring)
+
+## Key Features Explained
+
+### 1. Today's Articles Collection
+```python
+# Collect today's articles (00:00 ~ 23:59)
+now = datetime.now()
+from_date = now.replace(hour=0, minute=0, second=0, microsecond=0)
+until = from_date + timedelta(days=2)  # Exclusive until
+```
+
+### 2. Deduplication Logic
+```python
+# Check if article exists
+existing = await dynamodb_client.get_article(article.news_id)
+if existing:
+    # Update original_link only, skip translation
+    await dynamodb_client.table.update_item(...)
+    cached_articles += 1
+    continue
+```
+
+### 3. HTTPS Conversion
+```python
+# Convert http:// to https://
+original_link = doc.get("provider_link_page") or doc.get("news_url")
+if original_link and original_link.startswith("http://"):
+    original_link = original_link.replace("http://", "https://", 1)
+```
+
+### 4. Content Filtering
+```python
+# Collector: Skip articles without content
+if not article.content or not article.content.strip():
+    continue
+
+# Search: Filter out empty content
+if not item.get('content_en', '').strip():
+    continue
+```
+
+### 5. Search Functionality
+```python
+# Search in title and content (case-insensitive)
+query_lower = query.lower()
+if query_lower not in title and query_lower not in content:
+    continue
+```
+
+### 6. Client-Side Loading
+```javascript
+// Homepage
+useEffect(() => {
+  fetchLatestArticles().then(setArticles);
+}, []);
+
+// Category pages
+useEffect(() => {
+  fetchCategoryArticles(category).then(setArticles);
+}, [category]);
+```
+
+## Documentation
+
+- [Real-time Update Guide](REALTIME_UPDATE_GUIDE.md) - Auto-collection system
+- [Deployment Notes](.amazonq/rules/memory-bank/deployment-notes.md) - Deployment process
+- [Frontend Implementation](.amazonq/rules/memory-bank/frontend-implementation.md) - Frontend details
+- [Provider Link Fix](.amazonq/rules/memory-bank/provider-link-fix-2025-12-03.md) - Short link restoration
+- [Phase 7 Improvements](.amazonq/rules/memory-bank/phase-7-improvements.md) - Latest changes
+
+## Monitoring
+
+### Check Collection Status
+```bash
+aws events describe-rule --name seodaily-eng-article-collection-dev --region us-east-1
+```
+
+### View Logs
+```bash
+aws logs tail /aws/lambda/seodaily-eng-article-collector-dev --follow --region us-east-1
+```
+
+### Manual Trigger
+```bash
+aws lambda invoke \
+  --function-name seodaily-eng-article-collector-dev \
+  --payload '{"hours": 1}' \
+  --region us-east-1 \
+  response.json
+```
+
+## Cost Breakdown
+
+- **Anthropic Claude**: ~$47/month (2,500+ articles × $0.019)
+- **EC2 (t3.medium)**: ~$30/month
+- **Lambda**: ~$11/month
+- **DynamoDB**: ~$3/month
+- **S3/Route53/Others**: ~$5/month
+- **Total**: ~$96/month
+- **Cost Analysis**:
+  - Input: 2,500 articles × 3,000 tokens × $15/1M = $112.50/month
+  - Output: 2,500 articles × 1,500 tokens × $75/1M = $281.25/month
+  - Actual: ~$47/month (optimized prompts)
+  - Translation Quality: 10x better than AWS Translate
+  - SSR Benefits: Better SEO, faster TTFB, AI Overview citations
+
+## License
+
+Proprietary
