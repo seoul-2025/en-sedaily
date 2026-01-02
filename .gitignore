@@ -1,0 +1,116 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+backend/venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.hypothesis/
+
+# Terraform
+infrastructure/.terraform/
+infrastructure/**/.terraform/
+infrastructure/*.tfstate
+infrastructure/*.tfstate.*
+infrastructure/.terraform.lock.hcl
+infrastructure/**/.terraform.lock.hcl
+*.tfplan
+tfplan
+
+# Logs
+*.log
+logs/
+infrastructure/logs/
+
+# Node
+node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+
+# CMS (Next.js build artifacts)
+cms/.next/
+cms/out/
+cms/.env.local
+
+# Backend build
+backend/build/
+backend/lambda-build/
+backend/lambda_package.zip
+
+# Terraform
+infrastructure/terraform.tfvars
+
+# Sensitive
+*.pem
+*.key
+*credentials*
+*secret*
+
+# Frontend deployment archives
+frontend/deploy-*.tar.gz
+
+# Legacy files (archived but not tracked)
+legacy/
+*/legacy/
+
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# Backup files
+*.bak
+*.old
+*.backup
+*~
+README.md.backup
+*.md.backup
+
+# Documentation scripts (keep source, ignore temp files)
+/tmp/analyze_readme_sections.sh
+/tmp/verify_extraction*.sh
+
+# Sensitive documentation with API keys
+.amazonq/
+BACKEND_STRUCTURE_ANTHROPIC.md
+LAMBDA_ENV_UPDATE_2025-01-XX.md
+**/phase-14-anthropic-claude.md
