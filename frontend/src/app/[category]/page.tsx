@@ -231,10 +231,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       />
       <div className="max-w-7xl mx-auto px-1">
         <div className="mb-1 border-b border-[var(--color-border)] pb-2">
-          <h1 className="font-sans text-base md:text-2xl font-semibold tracking-wide text-[var(--color-primary)]">
+          <h1 className="font-sans text-base md:text-[28px] font-semibold tracking-wide text-[var(--color-primary)]">
             {config.title}
           </h1>
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed max-w-4xl pt-1">
+          <p className="text-sm md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed pt-1">
             {config.description}
           </p>
         </div>

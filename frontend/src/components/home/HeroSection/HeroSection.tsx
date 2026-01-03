@@ -119,18 +119,22 @@ export function HeroSection({ featured, articleList, popular }: Props) {
                               className="object-cover"
                               sizes="60vw"
                               priority
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                                if (fallback) fallback.style.display = 'flex';
+                              }}
                             />
-                          ) : (
-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">
-                              <Image
-                                src="/sedaily-og-image.png"
-                                alt="Seoul Economic Daily - English News from South Korea"
-                                width={120}
-                                height={68}
-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"
-                              />
-                            </div>
-                          )}
+                          ) : null}
+                          <div className={`w-full h-full bg-white flex items-center justify-center border border-gray-100 ${featuredArticles[0].original_link ? 'hidden' : 'flex'}`}>
+                            <Image
+                              src="/sedaily-og-image.png"
+                              alt="Seoul Economic Daily - English News from South Korea"
+                              width={120}
+                              height={68}
+                              className="w-auto h-auto max-w-[80%] max-h-[80%]"
+                            />
+                          </div>
                         </div>
                         <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>
                           {featuredArticles[0].subtitle}...
@@ -153,18 +157,22 @@ export function HeroSection({ featured, articleList, popular }: Props) {
                               className="object-cover"
                               sizes="40vw"
                               priority
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                                if (fallback) fallback.style.display = 'flex';
+                              }}
                             />
-                          ) : (
-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">
-                              <Image
-                                src="/sedaily-og-image.png"
-                                alt="Seoul Economic Daily - English News from South Korea"
-                                width={120}
-                                height={68}
-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"
-                              />
-                            </div>
-                          )}
+                          ) : null}
+                          <div className={`w-full h-full bg-white flex items-center justify-center border border-gray-100 ${featuredArticles[1].original_link ? 'hidden' : 'flex'}`}>
+                            <Image
+                              src="/sedaily-og-image.png"
+                              alt="Seoul Economic Daily - English News from South Korea"
+                              width={120}
+                              height={68}
+                              className="w-auto h-auto max-w-[80%] max-h-[80%]"
+                            />
+                          </div>
                         </div>
                         <div className="mb-2">
                           <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wide">
@@ -208,18 +216,22 @@ export function HeroSection({ featured, articleList, popular }: Props) {
                               className="object-cover"
                               sizes="40vw"
                               priority={false}
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                                if (fallback) fallback.style.display = 'flex';
+                              }}
                             />
-                          ) : (
-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">
-                              <Image
-                                src="/sedaily-og-image.png"
-                                alt="Seoul Economic Daily - English News from South Korea"
-                                width={120}
-                                height={68}
-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"
-                              />
-                            </div>
-                          )}
+                          ) : null}
+                          <div className={`w-full h-full bg-white flex items-center justify-center border border-gray-100 ${featuredArticles[2].original_link ? 'hidden' : 'flex'}`}>
+                            <Image
+                              src="/sedaily-og-image.png"
+                              alt="Seoul Economic Daily - English News from South Korea"
+                              width={120}
+                              height={68}
+                              className="w-auto h-auto max-w-[80%] max-h-[80%]"
+                            />
+                          </div>
                         </div>
                         <div className="mb-2">
                           <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wide">
@@ -256,18 +268,22 @@ export function HeroSection({ featured, articleList, popular }: Props) {
                               className="object-cover"
                               sizes="60vw"
                               priority={false}
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                                if (fallback) fallback.style.display = 'flex';
+                              }}
                             />
-                          ) : (
-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">
-                              <Image
-                                src="/sedaily-og-image.png"
-                                alt="Seoul Economic Daily - English News from South Korea"
-                                width={120}
-                                height={68}
-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"
-                              />
-                            </div>
-                          )}
+                          ) : null}
+                          <div className={`w-full h-full bg-white flex items-center justify-center border border-gray-100 ${featuredArticles[3].original_link ? 'hidden' : 'flex'}`}>
+                            <Image
+                              src="/sedaily-og-image.png"
+                              alt="Seoul Economic Daily - English News from South Korea"
+                              width={120}
+                              height={68}
+                              className="w-auto h-auto max-w-[80%] max-h-[80%]"
+                            />
+                          </div>
                         </div>
                         <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>
                           {featuredArticles[3].subtitle}...
