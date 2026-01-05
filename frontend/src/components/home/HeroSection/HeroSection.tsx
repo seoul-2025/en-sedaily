@@ -178,15 +178,6 @@ export function HeroSection({ featured, articleList, popular }: Props) {
                           <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wide">
                             {featuredArticles[1].category || 'Business'}
                           </span>
-                          {featuredArticles[1].tags && featuredArticles[1].tags.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {featuredArticles[1].tags.slice(0, 3).map((tag, index) => (
-                                <span key={index} className="text-xs text-[var(--color-text-muted)] bg-gray-100 px-2 py-0.5 rounded">
-                                  #{tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
                         </div>
                         <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>
                           {featuredArticles[1].subtitle}...
@@ -237,15 +228,6 @@ export function HeroSection({ featured, articleList, popular }: Props) {
                           <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wide">
                             {featuredArticles[2].category || 'Business'}
                           </span>
-                          {featuredArticles[2].tags && featuredArticles[2].tags.length > 0 && (
-                            <div className="flex flex-wrap gap-1 mt-1">
-                              {featuredArticles[2].tags.slice(0, 3).map((tag, index) => (
-                                <span key={index} className="text-xs text-[var(--color-text-muted)] bg-gray-100 px-2 py-0.5 rounded">
-                                  #{tag}
-                                </span>
-                              ))}
-                            </div>
-                          )}
                         </div>
                         <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>
                           {featuredArticles[2].subtitle}...

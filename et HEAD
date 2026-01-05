@@ -1,0 +1,294 @@
+[1mdiff --git a/frontend/src/components/home/HeroSection/HeroSection.tsx b/frontend/src/components/home/HeroSection/HeroSection.tsx[m
+[1mindex dc9f6c7..7e5b37d 100644[m
+[1m--- a/frontend/src/components/home/HeroSection/HeroSection.tsx[m
+[1m+++ b/frontend/src/components/home/HeroSection/HeroSection.tsx[m
+[36m@@ -82,246 +82,63 @@[m [mfunction ThumbnailImage({ src, alt }: { src: string; alt: string }) {[m
+ }[m
+ [m
+ interface Props {[m
+[31m-  featured: FeaturedArticle | FeaturedArticle[];[m
+[32m+[m[32m  featured: FeaturedArticle;[m
+   articleList: Article[];[m
+   popular: Article[];[m
+ }[m
+ [m
+ export function HeroSection({ featured, articleList, popular }: Props) {[m
+[31m-  // featured가 배열인지 단일 객체인지 확인[m
+[31m-  const isWebVersion = Array.isArray(featured);[m
+[31m-  const featuredArticles = isWebVersion ? featured : [featured];[m
+[31m-  [m
+   return ([m
+     <section className="pb-8 mb-8">[m
+       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">[m
+         {/* 왼쪽: Featured + Article List */}[m
+         <div className="lg:col-span-2">[m
+[31m-          {/* Featured Articles */}[m
+[31m-          {isWebVersion ? ([m
+[31m-            // 웹 버전: 4개 기사를 3:2 비율로 표시[m
+[31m-            <div className="mb-8 pb-8 border-b border-[var(--color-border)]">[m
+[31m-              <div className="space-y-6">[m
+[31m-                {/* 첫 번째 행: 3:2 비율 */}[m
+[31m-                <div className="grid grid-cols-5 gap-4">[m
+[31m-                  <div className="col-span-3 border-r border-[var(--color-border)] pr-4">[m
+[31m-                    <article className="group">[m
+[31m-                      <Link href={featuredArticles[0].url}>[m
+[31m-                        <h2 className="text-[30px] font-bold leading-tight mb-3 text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">[m
+[31m-                          {featuredArticles[0].title}[m
+[31m-                        </h2>[m
+[31m-                        <div className="relative w-full aspect-[3/2] rounded overflow-hidden mb-3">[m
+[31m-                          {featuredArticles[0].original_link ? ([m
+[31m-                            <Image[m
+[31m-                              src={getImageUrl(featuredArticles[0].publishedAt, featuredArticles[0].original_link)}[m
+[31m-                              alt={featuredArticles[0].title}[m
+[31m-                              fill[m
+[31m-                              className="object-cover"[m
+[31m-                              sizes="60vw"[m
+[31m-                              priority[m
+[31m-                            />[m
+[31m-                          ) : ([m
+[31m-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">[m
+[31m-                              <Image[m
+[31m-                                src="/sedaily-og-image.png"[m
+[31m-                                alt="Seoul Economic Daily - English News from South Korea"[m
+[31m-                                width={120}[m
+[31m-                                height={68}[m
+[31m-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"[m
+[31m-                              />[m
+[31m-                            </div>[m
+[31m-                          )}[m
+[31m-                        </div>[m
+[31m-                        <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>[m
+[31m-                          {featuredArticles[0].subtitle}...[m
+[31m-                        </p>[m
+[31m-                      </Link>[m
+[31m-                    </article>[m
+[31m-                  </div>[m
+[31m-                  <div className="col-span-2 pl-4">[m
+[31m-                    <article className="group">[m
+[31m-                      <Link href={featuredArticles[1].url}>[m
+[31m-                        <h2 className="text-[24px] font-bold leading-tight mb-3 text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">[m
+[31m-                          {featuredArticles[1].title}[m
+[31m-                        </h2>[m
+[31m-                        <div className="relative w-full aspect-[3/2] rounded overflow-hidden mb-3">[m
+[31m-                          {featuredArticles[1].original_link ? ([m
+[31m-                            <Image[m
+[31m-                              src={getImageUrl(featuredArticles[1].publishedAt, featuredArticles[1].original_link)}[m
+[31m-                              alt={featuredArticles[1].title}[m
+[31m-                              fill[m
+[31m-                              className="object-cover"[m
+[31m-                              sizes="40vw"[m
+[31m-                              priority[m
+[31m-                            />[m
+[31m-                          ) : ([m
+[31m-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">[m
+[31m-                              <Image[m
+[31m-                                src="/sedaily-og-image.png"[m
+[31m-                                alt="Seoul Economic Daily - English News from South Korea"[m
+[31m-                                width={120}[m
+[31m-                                height={68}[m
+[31m-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"[m
+[31m-                              />[m
+[31m-                            </div>[m
+[31m-                          )}[m
+[31m-                        </div>[m
+[31m-                        <div className="mb-2">[m
+[31m-                          <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wide">[m
+[31m-                            {featuredArticles[1].category || 'Business'}[m
+[31m-                          </span>[m
+[31m-                          {featuredArticles[1].tags && featuredArticles[1].tags.length > 0 && ([m
+[31m-                            <div className="flex flex-wrap gap-1 mt-1">[m
+[31m-                              {featuredArticles[1].tags.slice(0, 3).map((tag, index) => ([m
+[31m-                                <span key={index} className="text-xs text-[var(--color-text-muted)] bg-gray-100 px-2 py-0.5 rounded">[m
+[31m-                                  #{tag}[m
+[31m-                                </span>[m
+[31m-                              ))}[m
+[31m-                            </div>[m
+[31m-                          )}[m
+[31m-                        </div>[m
+[31m-                        <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>[m
+[31m-                          {featuredArticles[1].subtitle}...[m
+[31m-                        </p>[m
+[31m-                      </Link>[m
+[31m-                    </article>[m
+[31m-                  </div>[m
+[32m+[m[32m          {/* Featured Article (상단 큰 기사) */}[m
+[32m+[m[32m          <article className="mb-8 pb-8 border-b border-[var(--color-border)]">[m
+[32m+[m[32m            <Link href={featured.url} className="group">[m
+[32m+[m[32m              {/* 제목 (상단) */}[m
+[32m+[m[32m              <h1 className="text-2xl md:text-3xl font-bold leading-tight mb-4 text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">[m
+[32m+[m[32m                {featured.title}[m
+[32m+[m[32m              </h1>[m
+[32m+[m
+[32m+[m[32m              {/* 이미지 + 설명 (가로 배치) */}[m
+[32m+[m[32m              <div className="flex flex-col md:flex-row gap-5">[m
+[32m+[m[32m                <div className="md:w-2/5 flex-shrink-0">[m
+[32m+[m[32m                  {featured.original_link ? ([m
+[32m+[m[32m                    <HeroImage[m
+[32m+[m[32m                      src={getImageUrl(featured.publishedAt, featured.original_link)}[m
+[32m+[m[32m                      alt={featured.title}[m
+[32m+[m[32m                    />[m
+[32m+[m[32m                  ) : ([m
+[32m+[m[32m                    <div className="w-full h-48 md:h-56 bg-white flex items-center justify-center rounded border border-gray-100">[m
+[32m+[m[32m                      <img src="/sedaily-og-image.png" alt="Seoul Economic Daily" className="w-40 h-auto" />[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                  )}[m
+                 </div>[m
+[31m-                [m
+[31m-                {/* 행 구분선 */}[m
+[31m-                <div className="border-t border-[var(--color-border)] my-6"></div>[m
+[31m-                [m
+[31m-                {/* 두 번째 행: 2:3 비율 */}[m
+[31m-                <div className="grid grid-cols-5 gap-4">[m
+[31m-                  <div className="col-span-2 border-r border-[var(--color-border)] pr-4">[m
+[31m-                    <article className="group">[m
+[31m-                      <Link href={featuredArticles[2].url}>[m
+[31m-                        <h2 className="text-[24px] font-bold leading-tight mb-3 text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">[m
+[31m-                          {featuredArticles[2].title}[m
+[31m-                        </h2>[m
+[31m-                        <div className="relative w-full aspect-[3/2] rounded overflow-hidden mb-3">[m
+[31m-                          {featuredArticles[2].original_link ? ([m
+[31m-                            <Image[m
+[31m-                              src={getImageUrl(featuredArticles[2].publishedAt, featuredArticles[2].original_link)}[m
+[31m-                              alt={featuredArticles[2].title}[m
+[31m-                              fill[m
+[31m-                              className="object-cover"[m
+[31m-                              sizes="40vw"[m
+[31m-                              priority={false}[m
+[31m-                            />[m
+[31m-                          ) : ([m
+[31m-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">[m
+[31m-                              <Image[m
+[31m-                                src="/sedaily-og-image.png"[m
+[31m-                                alt="Seoul Economic Daily - English News from South Korea"[m
+[31m-                                width={120}[m
+[31m-                                height={68}[m
+[31m-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"[m
+[31m-                              />[m
+[31m-                            </div>[m
+[31m-                          )}[m
+[31m-                        </div>[m
+[31m-                        <div className="mb-2">[m
+[31m-                          <span className="text-sm font-semibold text-[var(--color-accent)] uppercase tracking-wide">[m
+[31m-                            {featuredArticles[2].category || 'Business'}[m
+[31m-                          </span>[m
+[31m-                          {featuredArticles[2].tags && featuredArticles[2].tags.length > 0 && ([m
+[31m-                            <div className="flex flex-wrap gap-1 mt-1">[m
+[31m-                              {featuredArticles[2].tags.slice(0, 3).map((tag, index) => ([m
+[31m-                                <span key={index} className="text-xs text-[var(--color-text-muted)] bg-gray-100 px-2 py-0.5 rounded">[m
+[31m-                                  #{tag}[m
+[31m-                                </span>[m
+[31m-                              ))}[m
+[31m-                            </div>[m
+[31m-                          )}[m
+[31m-                        </div>[m
+[31m-                        <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>[m
+[31m-                          {featuredArticles[2].subtitle}...[m
+[31m-                        </p>[m
+[31m-                      </Link>[m
+[31m-                    </article>[m
+[31m-                  </div>[m
+[31m-                  <div className="col-span-3 pl-4">[m
+[31m-                    <article className="group">[m
+[31m-                      <Link href={featuredArticles[3].url}>[m
+[31m-                        <h2 className="text-[30px] font-bold leading-tight mb-3 text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">[m
+[31m-                          {featuredArticles[3].title}[m
+[31m-                        </h2>[m
+[31m-                        <div className="relative w-full aspect-[3/2] rounded overflow-hidden mb-3">[m
+[31m-                          {featuredArticles[3].original_link ? ([m
+[31m-                            <Image[m
+[31m-                              src={getImageUrl(featuredArticles[3].publishedAt, featuredArticles[3].original_link)}[m
+[31m-                              alt={featuredArticles[3].title}[m
+[31m-                              fill[m
+[31m-                              className="object-cover"[m
+[31m-                              sizes="60vw"[m
+[31m-                              priority={false}[m
+[31m-                            />[m
+[31m-                          ) : ([m
+[31m-                            <div className="w-full h-full bg-white flex items-center justify-center border border-gray-100">[m
+[31m-                              <Image[m
+[31m-                                src="/sedaily-og-image.png"[m
+[31m-                                alt="Seoul Economic Daily - English News from South Korea"[m
+[31m-                                width={120}[m
+[31m-                                height={68}[m
+[31m-                                className="w-auto h-auto max-w-[80%] max-h-[80%]"[m
+[31m-                              />[m
+[31m-                            </div>[m
+[31m-                          )}[m
+[31m-                        </div>[m
+[31m-                        <p className="text-sm text-[var(--color-text-light)] leading-relaxed" style={{wordBreak: 'keep-all', overflowWrap: 'break-word'}}>[m
+[31m-                          {featuredArticles[3].subtitle}...[m
+[31m-                        </p>[m
+[31m-                      </Link>[m
+[31m-                    </article>[m
+[31m-                  </div>[m
+[32m+[m[32m                <div className="md:w-3/5">[m
+[32m+[m[32m                  <p className="text-sm md:text-base text-[var(--color-text-light)] leading-relaxed line-clamp-5">[m
+[32m+[m[32m                    {featured.subtitle}[m
+[32m+[m[32m                  </p>[m
+                 </div>[m
+               </div>[m
+[31m-            </div>[m
+[31m-          ) : ([m
+[31m-            // 모바일 버전: 기존 1개 기사 레이아웃[m
+[31m-            <article className="mb-8 pb-8 border-b border-[var(--color-border)]">[m
+[31m-              <Link href={featuredArticles[0].url} className="group">[m
+[31m-                {/* 제목 (상단) */}[m
+[31m-                <h1 className="text-2xl md:text-3xl font-bold leading-tight mb-4 text-[var(--color-primary)] group-hover:text-[var(--color-accent)] transition-colors">[m
+[31m-                  {featuredArticles[0].title}[m
+[31m-                </h1>[m
+[32m+[m[32m            </Link>[m
+ [m
+[31m-                {/* 이미지 + 설명 (가로 배치) */}[m
+[31m-                <div className="flex flex-col md:flex-row gap-5">[m
+[31m-                  <div className="md:w-2/5 flex-shrink-0">[m
+[31m-                    {featuredArticles[0].original_link && ([m
+[31m-                      <HeroImage[m
+[31m-                        src={getImageUrl(featuredArticles[0].publishedAt, featuredArticles[0].original_link)}[m
+[31m-                        alt={featuredArticles[0].title}[m
+[31m-                      />[m
+[31m-                    )}[m
+[31m-                  </div>[m
+[31m-                  <div className="md:w-3/5">[m
+[31m-                    <p className="text-sm md:text-base text-[var(--color-text-light)] leading-relaxed line-clamp-5">[m
+[31m-                      {featuredArticles[0].subtitle}[m
+[31m-                    </p>[m
+[31m-                  </div>[m
+[31m-                </div>[m
+[31m-              </Link>[m
+[31m-[m
+[31m-              {/* 관련 기사 링크 (↳) */}[m
+[31m-              {articleList.length >= 2 && ([m
+[31m-                <div className="mt-4 space-y-2">[m
+[31m-                  {articleList.slice(0, 2).map((related) => ([m
+[31m-                    <Link[m
+[31m-                      key={related.id}[m
+[31m-                      href={related.url}[m
+[31m-                      className="flex items-start gap-2 text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors"[m
+[31m-                    >[m
+[31m-                      <span className="text-[var(--color-text-muted)]">↳</span>[m
+[31m-                      <span className="line-clamp-1">{related.title}</span>[m
+[31m-                    </Link>[m
+[31m-                  ))}[m
+[31m-                </div>[m
+[31m-              )}[m
+[31m-            </article>[m
+[31m-          )}[m
+[32m+[m[32m            {/* 관련 기사 링크 (↳) */}[m
+[32m+[m[32m            {articleList.length >= 2 && ([m
+[32m+[m[32m              <div className="mt-4 space-y-2">[m
+[32m+[m[32m                {articleList.slice(0, 2).map((related) => ([m
+[32m+[m[32m                  <Link[m
+[32m+[m[32m                    key={related.id}[m
+[32m+[m[32m                    href={related.url}[m
+[32m+[m[32m                    className="flex items-start gap-2 text-sm text-[var(--color-text)] hover:text-[var(--color-accent)] transition-colors"[m
+[32m+[m[32m                  >[m
+[32m+[m[32m                    <span className="text-[var(--color-text-muted)]">↳</span>[m
+[32m+[m[32m                    <span className="line-clamp-1">{related.title}</span>[m
+[32m+[m[32m                  </Link>[m
+[32m+[m[32m                ))}[m
+[32m+[m[32m              </div>[m
+[32m+[m[32m            )}[m
+[32m+[m[32m          </article>[m
+ [m
+           {/* Article List (기사 리스트) */}[m
+           <div className="space-y-6">[m

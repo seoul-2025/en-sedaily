@@ -1,0 +1,96 @@
+[33m3f2eaa6[m[33m ([m[1;31morigin/main[m[33m)[m feat: Add AdSense integration, daily video config, and doc cleanup
+[33md8d8ef9[m fix: Improve byline mapping with fallback title matching
+[33mda1c82e[m perf: Optimize admin CMS with GSI Query (99% cost reduction)
+[33mbc599cf[m chore: Remove temporary byline conversion scripts
+[33mb70aa8d[m chore: Remove temporary byline fix scripts
+[33mcfac05e[m feat: Optimize byline translation with pre-loaded mapping file
+[33m87fac45[m feat: Use byline mapping file for faster translation
+[33m85fe6c2[m feat: Add byline editing to CMS admin page
+[33me54a2d8[m fix: Save byline_en to DynamoDB and update video player
+[33mb8c2ed0[m feat: Add byline scraping from original Seoul Economic website
+[33m835e20d[m fix: Add byline_en field to all articles and APIs
+[33mf99ec51[m feat: Add Google AdSense ad slot IDs for production
+[33maf0ea36[m feat: Use byline_en from DynamoDB for reporter names
+[33m4118512[m fix: Check full byline before stripping titles in REPORTER_NAME_MAP lookup
+[33m0001538[m feat: Update reporter names mapping with 543 entries from Excel
+[33mac04c58[m docs: Add Google AdSense setup guide and request materials
+[33m19b43e8[m docs: Update technical report with Phase 56 (VideoObject Schema)
+[33m4835b0f[m docs: Add Phase 56 - VideoObject Schema for Naver TV Embeds
+[33mdf01e25[m feat: Add VideoObject schema for Naver TV embeds (SEO/AEO)
+[33ma5e9af0[m feat: Update Naver TV video on homepage and Jan 2 articles
+[33m3fd76df[m docs: Update technical report with GA4 data and GSC daily metrics
+[33m67f9786[m docs: Update technical report with Next.js rationale and latest GSC data
+[33m08cc56c[m docs: Add comprehensive SEO/AEO technical report
+[33m9c1ce2e[m chore: Add sensitive files to gitignore
+[33md23e6e3[m docs: Add Phase 55 (Category Descriptions) documentation
+[33md3ced41[m feat: Add visible category descriptions for SEO and UX improvement
+[33mac7a397[m docs: Add Phase 53 (Security Headers) and Phase 54 (Sitemap Fix) documentation
+[33mf995cfa[m fix: Fix sitemap category filtering to prevent duplicate articles
+[33m44a76d2[m feat: Add comprehensive security headers for SEO and protection
+[33ma452fd1[m docs: Update Phase 52 with comprehensive before/after structure
+[33m10cd42c[m docs: Update Phase 46 with comprehensive before/after structure
+[33m99dcc71[m docs: Update Phase 32 with comprehensive before/after structure
+[33meb7804a[m docs: Update Phase 49 with comprehensive before/after structure
+[33me9bab93[m Merge branch 'docs/phase-documentation-restructure'
+[33mecb9dea[m docs: Update Phase 27 with comprehensive before/after structure
+[33me90edc5[m docs: Update Phase 37 with comprehensive before/after structure
+[33md64bb24[m docs: Correct phase timeline dates and add missing phase documents
+[33ma1c0944[m chore: Clean up unused documentation and archive files
+[33m7f6188e[m Merge pull request #6 from sedaily/docs/phase-documentation-restructure
+[33m79f43b3[m feat: Update Naver TV video URL to v/91371573 for Jan 1, 2026
+[33m05a3c70[m docs: Restructure documentation system (Phase 53)
+[33m43f2d83[m feat: Add K-Business Connections game
+[33ma921a69[m fix: Disable in-article ad until AdSense approval
+[33m1f912b1[m feat: Add Google AdSense integration
+[33m17be4ff[m fix: Hashtag search case sensitivity bug (Phase 48)
+[33m0627664[m docs: Add Phase 47 - Lambda Search Optimization & Security Hardening
+[33m4e0883a[m refactor: Code cleanup and optimization improvements
+[33m4fab259[m security: Remove exposed API keys and SSH keys
+[33m69706cb[m fix: Infrastructure improvements - monitoring, backup, and cleanup
+[33m3eb2173[m feat: Add enterprise-grade infrastructure monitoring system (Phase 46)
+[33m2739d2a[m docs: Add JSDoc documentation to api.ts and cleanup unused files
+[33mec17764[m chore: Clean up project - remove unused files and Video Analytics system
+[33m66d1d99[m feat: Add Google Analytics 4 and AdSense integration (Phase 17-19)
+[33mcc5087f[m docs: Update README with Phase 37-45 development records (Dec 25-30)
+[33m1b4cf19[m fix: Correct category filtering in API call
+[33m13fe75b[m feat: Add comprehensive video analytics tracking system
+[33m2c6ddd7[m feat: Sync 10-category structure from economic-categorization branch
+[33m5a39bd6[m fix: Migrate translation service to AWS Secrets Manager for API key
+[33mdfad0fd[m feat: Add CMS settings page for Naver TV URL management with auto-update
+[33m4b7b3d2[m feat: Re-add sitemap.xml route handler
+[33m0588cdf[m Update header component
+[33mf0b3f4f[m feat: Add RSS feeds and update Naver TV URL for Dec 26+ articles
+[33m8165c8e[m feat: Enable autoPlay for Naver TV videos
+[33m09db768[m Merge branch 'main' of github.com:sedaily/en-sedaily-1st
+[33m8e1d37c[m docs: Remove all emojis from README
+[33m53a8bc4[m docs: Fix phase order in README (34 → 33 → 32 chronological)
+[33m0b57025[m Merge pull request #5 from sedaily/feature/aeo-deepdive1224
+[33m6b558e2[m feat: Phase 34 - ISR Performance Optimization (10-20x faster)
+[33me183027[m Merge pull request #4 from sedaily/feature/cms-update
+[33m66d79fc[m fix: Map Regional (지역) category to Society URL path
+[33m6d03cd2[m fix: Fix date sorting to work across all articles, not just current page
+[33mb1802a0[m feat: Add CMS articles list dashboard with sorting and pagination
+[33m3b883fd[m refactor: Major code structure improvements
+[33m3e06930[m feat: Improve SEO and reporter name mapping
+[33m1bcfb53[m docs: Update README with Phase 30 - Homepage & SEO improvements
+[33m80b8b8d[m fix: Add hreflang link tags directly to JSX for proper SEO
+[33m250e5ab[m feat: Add hreflang tags for Korean-English language alternates
+[33mdf410a4[m Merge branch 'seo-hashtag_searchengine-connection-update' into main - Phase 27 SSR & SEO
+[33m2c530ce[m feat(seo): Phase 27 - SSR migration, SEO optimization, and codebase cleanup
+[33m34bb836[m feat(article): Make hashtags clickable for search
+[33m6eb930b[m Merge pull request #3 from sedaily/feature/seo-eeat+llm_opt/about+privacy+contact+terms+robot.txt+noindex+OpenGraph-add/update
+[33m39f3e30[m feat(seo): Add E-E-A-T pages and AI search optimization
+[33m8f6424c[m Merge pull request #2 from sedaily/feature/seo-ssr-update
+[33mb481dd9[m perf: Implement comprehensive caching optimization for category pages
+[33mfd630a2[m perf: Add prefetch to category navigation links for faster page transitions
+[33m674dcbf[m feat: Complete SSR deployment with EC2 and CloudFront
+[33m2015868[m feat: Implement SSR with EC2 deployment configuration
+[33m158e066[m Merge pull request #1 from sedaily/feature/improve-seo-metadata
+[33mbfe8231[m feat: SEO improvements for en.sedaily.com domain
+[33m7525093[m Merge main branch and resolve conflicts - keeping SEO improvements and en.sedaily.com domain
+[33m05d8efa[m feat: SEO 메타데이터 개선 및 카카오톡 미리보기 이미지 설정
+[33m60aa0c5[m fix: Remove incorrect SVG favicons and update metadata for real logo files
+[33m3b5cf1d[m feat: Complete SEO setup with favicon and social media images
+[33mf4a4155[m Initial commit: en-sedaily-1st project with CloudFront configuration for en.sedaily.com
+[33mde5f533[m Update: Complete Phase 1 - Production ready with all features
+[33mb277a56[m Initial commit: SEOdaily-ENG - Seoul Economic Daily English version

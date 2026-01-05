@@ -29,10 +29,10 @@ NC='\033[0m' # No Color
 # EC2 서버 정보
 EC2_HOST="52.21.195.0"
 EC2_USER="ubuntu"
-PEM_KEY="$HOME/.ssh/sedaily-ec2-key.pem"
+PEM_KEY="/d/sedaily/now/en-sedaily-1st-main/sedaily-es2-key.pem"
 
 # 프로젝트 경로
-PROJECT_DIR="/Users/yeong-gwang/Documents/work/서울경제신문/DEV/영문사이트/en-sedaily-1st-main/frontend"
+PROJECT_DIR="/d/sedaily/now/en-sedaily-1st-main/frontend"
 DEPLOY_PACKAGE_DIR="$PROJECT_DIR/deploy-package"
 DEPLOY_TARBALL="deploy-$(date +%Y%m%d-%H%M%S).tar.gz"
 
